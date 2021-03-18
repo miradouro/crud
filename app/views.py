@@ -45,3 +45,9 @@ def update(request, pk):
         return redirect('home')
 
 
+def delete(request, pk):
+    db = Carros.objects.get(pk=pk)
+    db.delete()
+    return redirect('home')
+
+
