@@ -7,9 +7,15 @@ from django.core.paginator import Paginator
 # Create your views here.
 def home(request):
     data = {}
+    search = request.GET.get('search')
+    if search:
+        data['db'] = Carros.objects.filter(modelo__icontains=search)
+    else:
+        data['db'] = Carros.objects.all()
     #data['db'] = Carros.objects.all()
-    all = Carros.objects.all()
-    paginator = Paginator(all, 2)
+    #all = Carros.objects.all()
+    all = data['db']
+    paginator = Paginator(all, 5)
     pages = request.GET.get('page')
     data['db'] = paginator.get_page(pages)
     return render(request, 'index.html', data)
